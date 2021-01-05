@@ -48,9 +48,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'ifuse';
-$db['default']['password'] = 'HEMAzeemlapje';
-$db['default']['database'] = 'ifuse_db';
+$db['default']['username'] = 'ifuser';
+$db['default']['password'] = 'ifusepw';
+$db['default']['database'] = 'ifusedb';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
