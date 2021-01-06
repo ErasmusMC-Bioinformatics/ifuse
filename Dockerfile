@@ -1,9 +1,10 @@
 FROM ubuntu:14.04
 
 # install dependencies
-RUN apt-get update; apt-get install -y --force-yes apache2 php5 libapache2-mod-php5 mysql-server php5-mysql php-pear
-RUN apt-get update; apt-get install -y imagemagick r-base nano
+RUN apt-get update; apt-get install -y --force-yes apache2 php5 php5-dev libapache2-mod-php5 mysql-server php5-mysql php-pear
+RUN apt-get update; apt-get install -y imagemagick libmagickwand-dev libmagickcore-dev r-base nano
 RUN pecl install imagick
+RUN echo "extension=imagick.so" >> /etc/php5/apache2/php.ini
 
 # add ifuse code to webroot
 #ADD iFuse /var/www/html/
