@@ -2,11 +2,13 @@ FROM ubuntu:14.04
 
 # install dependencies
 RUN apt-get update; apt-get install -y --force-yes apache2 php5 libapache2-mod-php5 mysql-server php5-mysql php-pear
-RUN apt-get update; apt-get install -y imagemagick
+RUN apt-get update; apt-get install -y imagemagick r-base nano
 RUN pecl install imagick
 
 # add ifuse code to webroot
+#ADD iFuse /var/www/html/
 ADD ifuse-code /var/www/html/
+
 RUN chmod 777 -R /var/www/html/ && rm /var/www/html/index.html
 
 # set up database
