@@ -3,6 +3,11 @@ setClass("cgsv",representation(assemseq="data.frame",
 	genes="data.frame",cggenes="data.frame",junctions="data.frame",
 	othercg="data.frame",otherannot="data.frame"))
 
+
+
+
+
+
 ############################################################
 ##INTERVALS OF LEFT AND RIGHT SECTIONS######################
 ############################################################
@@ -60,10 +65,22 @@ data.slot<-new("cgsv",
 	genes=allannot.cg[,c(1,which(colnames(allannot.cg)%in%c("Left.name",
 		"Left.chrom","Left.strand","Left.txStart","Left.txEnd","Right.name",
 		"Right.chrom","Right.strand","Right.txStart","Right.txEnd")))],
-	cggenes=allannot.cg[,c(1,19:20)],
-	junctions=allannot.cg[,c(1:12,16)],
-	othercg=allannot.cg[,c(1,13,14,15,17,18,21:24)],
-	otherannot=allannot.cg[,c(1,30,36:46,52:61)])
+	cggenes=allannot.cg[,c(1,which(colnames(allannot.cg)%in%c("LeftGenes","RightGenes")))],
+	junctions=allannot.cg[,c(1,which(colnames(allannot.cg)%in%c("LeftChr",
+        "LeftPosition","LeftStrand","LeftLength","RightChr","RightPosition",
+        "RightStrand","RightLength","StrandConsistent","Interchromosomal",
+        "Distance","TransitionLength")))],
+	othercg=allannot.cg[,c(1,which(colnames(allannot.cg)%in%c("DiscordantMatePairAlignments",
+		"JunctionSequenceResolved","LeftRepeatClassification","RightRepeatClassification",
+        "XRef","DeletedTransposableElement",
+		"KnownUnderrepresentedRepeat","FrequencyInBaselineGenomeSet")))],
+	otherannot=allannot.cg[,c(1,which(colnames(allannot.cg)%in%c("Left.bin","Left.cdsStart",
+        "Left.cdsEnd","Left.exonCount","Left.exonStarts","Left.exonEnds",
+        "Left.score","Left.name2","Left.cdsStartStat","Left.cdsEndStat",
+        "Left.exonFrames","Right.bin","Right.cdsStart",
+        "Right.cdsEnd","Right.exonCount","Right.exonStarts","Right.exonEnds",
+        "Right.score","Right.name2","Right.cdsStartStat","Right.cdsEndStat",
+        "Right.exonFrames")))])
 
 matched<-cjunct(data.slot@junctions,data.slot@genes,data.slot@otherannot)
 gc()
