@@ -5,32 +5,32 @@
       public          $opt = null;
       private $coordinates = array();
       public    $sequences = array();
-      
+
       public function __construct() {
           $this->CI =& get_instance();
-          
-          $tmp = array_filter(explode(";",$this->CI->userfiles->getFile(null,'OPTIONS')));
-          while($temp = each($tmp)) {list($key, $value) = explode(":", $temp[1]);$this->opt[strtolower($key)] = $value;}
+
+          #$tmp = array_filter(explode(";",$this->CI->userfiles->getFile(null,'OPTIONS')));
+          #while($temp = each($tmp)) {list($key, $value) = explode(":", $temp[1]);$this->opt[strtolower($key)] = $value;}
       }
-      
+
       public function __destruct() {}
-      
+
       public function add_coordinates($chrom,$start,$end) {
           if ((strtolower($chrom) != 'na') && (strtolower($start) != 'na') && (strtolower($end) != 'na')) {
               $this->coordinates[$chrom][$start][$end] = null;
           }
       }
-      
+
       public function concat_sequences(&$dataset) {
           if (is_array($dataset) && (sizeof($dataset) > 0) && !isset($dataset[0]['Gene.Left.Sequence']) ) {
               $currentFile = $this->CI->userfiles->getFile().".seq";
               $sequences =& $this->sequences;;
-              
+
               // open genomic reference files
               $seqDir = "{$this->CI->userfiles->basepath}/../R/{$this->opt['reference']}/";
               if (is_dir($seqDir)) {
                   $this->CI->ifuseloader->organize($dataset);
-                  
+
                   if (is_array($this->coordinates)) {
                       $chroms = array_keys($this->coordinates);
                       foreach ($chroms as $chrom) {
@@ -67,7 +67,7 @@
                   } else {
                       $e = NULL;
                   }
-                  
+
               // download sequence files from UCSC DAS Server to our server (file or per request)
               } else {
                   $coordinates = array();
@@ -89,12 +89,12 @@
 				          }
 			          }
 		          }
-                      
+
 		          $url = implode("&",$coordinates);
                   $pre = preg_replace("/\*/",$this->opt['reference'],$this->preurl);
 		          $f_url = $pre . $url;
-                  
-                  
+
+
 		          if (!file_exists($currentFile)) {
                       // download sequence files from UCSC DAS Server to our server
                       if (!ini_get('allow_url_fopen') == 0) {
@@ -102,7 +102,7 @@
                           if (strlen($pre . $f_url) > $max) {
                               $i=0; // offset
                               $urlsegs = array();
-                              
+
                               //split url in parts
                               while (($i < strlen($url)) && ($url != implode("&",$urlsegs)) && (strlen($url) != strlen(implode("&",$urlsegs)))) {
                                   if ($i == 0) {
@@ -121,7 +121,7 @@
                                   //if ($i > 0) { break; }
                                   $i = strlen(implode("&",$urlsegs));
                               }
-                              
+
                               // including prefix
                               foreach ($urlsegs as &$urlseg) {
                                   $urlseg = $pre . $urlseg;
@@ -136,7 +136,7 @@
 			              $currentFile = $f_url;
 			          }
                   }
-                  
+
                   if (file_exists($currentFile)) {
                       if ($DASDNA = @simplexml_load_file($currentFile)) {
                           foreach ($DASDNA->SEQUENCE as $sequence) {
@@ -148,7 +148,7 @@
                       }
                   }
               }
-              
+
               if (is_array($dataset)) {
                   foreach ($dataset as &$event) {
                       $event[    'Gene.Left.Sequence'] = null;
@@ -156,7 +156,7 @@
                       $event[ 'JunctionLeft.Sequence'] = null;
                       $event['JunctionRight.Sequence'] = null;
                   }
-                  
+
                   $done=false;
                   foreach ($dataset as &$event) {
                       $event[    'Gene.Left.Sequence'] = isset($sequences[preg_replace("/chr/","",strtolower($event[  'Gene.Left.chrom']))][intval($event[  'Gene.Left.txStart'])][$event[  'Gene.Left.txEnd']]) ? $sequences[preg_replace("/chr/","",strtolower($event[  'Gene.Left.chrom']))][intval($event[  'Gene.Left.txStart'])][$event[  'Gene.Left.txEnd']] : null;
@@ -168,7 +168,7 @@
           }
       }
   }
-  
+
   function strand($dir) {
       return ($dir==1?'+':($dir==-1?'-':'?'));
   }
