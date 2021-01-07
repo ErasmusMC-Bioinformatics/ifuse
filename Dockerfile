@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 # install dependencies
 RUN apt-get update; apt-get install -y --force-yes apache2 php5 php5-dev libapache2-mod-php5 mysql-server php5-mysql php-pear
-RUN apt-get update; apt-get install -y imagemagick libmagickwand-dev libmagickcore-dev r-base nano
+RUN apt-get update; apt-get install -y imagemagick libmagickwand-dev libmagickcore-dev r-base nano wget
 RUN pecl install imagick
 RUN echo "extension=imagick.so" >> /etc/php5/apache2/php.ini
 
@@ -23,9 +23,12 @@ RUN /etc/init.d/mysql start && \
     cat /root/setup_database.sql | mysql
 
 
-# Configure iFUSE
-ADD startup.sh root/
+# download reference data
+ADD download_reference_data.sh root/
+RUN /root/download_reference_data.sh
+
 
 # Serve iFUSE
+ADD startup.sh root/
 EXPOSE 80
 CMD ["bash", "/root/startup.sh"]
