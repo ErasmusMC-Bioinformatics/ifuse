@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 2 ] 
+if [ $# -ne 2 ]
 then
   echo "usage: $0 <fusionmap file> <outfile> "
 fi
@@ -10,7 +10,7 @@ awk 'BEGIN {FS="\t"; OFS="\t"; i=0}{
 	if(FNR<=1){
 		print ">Id","LeftChr","LeftPosition","LeftStrand","LeftLength","RightChr","RightPosition","RightStrand","RightLength","StrandConsistent","InterChromosomal","Distance","DiscordantMatePairAlignments","JunctionSequenceResolved","TransitionSequence","TransitionLength","LeftRepeatClassification","RigthRepeatClassification","LeftGenes", "RightGenes", "XRef","DeletedTransposableElement","KnownUnderrepresentedRepeat","FrequencyInBaselineGenomeSet","AssembledSequence", "EventId","Type","relatedJunctions"
 	}
-	if(FNR>1) {	
+	if(FNR>1) {
 		c="N";
 		ic="N";
 		if(substr($5,1,1) == substr($5,2,2)) c="Y";
@@ -19,7 +19,7 @@ awk 'BEGIN {FS="\t"; OFS="\t"; i=0}{
 	}
 }' $1 > $2
 
-
+sed -i 's/@//g' $2
 
 
 
