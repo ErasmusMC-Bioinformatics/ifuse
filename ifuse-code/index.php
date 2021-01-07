@@ -39,7 +39,7 @@ if (defined('ENVIRONMENT'))
 			error_reporting(E_ALL);
 			ini_set('display_errors', 1);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);
@@ -76,7 +76,7 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = 'application';
+	$application_folder = '/var/www/html/application';
 
 /*
  * --------------------------------------------------------------------
