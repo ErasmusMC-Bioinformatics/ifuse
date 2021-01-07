@@ -19,7 +19,7 @@ $ docker pull quay.io/erasmusmc_bioinformatics/ifuse
 Next, run the Docker container
 
 ```bash
-$ docker run -p 8080:80 erasmusmc_bioinformatics/ifuse
+$ docker run -p 8080:80 quay.io/erasmusmc_bioinformatics/ifuse
 ```
 
 Next, open your browser, and navigate to `http://localhost:8080`
