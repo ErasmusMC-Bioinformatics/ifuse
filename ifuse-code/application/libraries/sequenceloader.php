@@ -8,8 +8,8 @@
 
       public function __construct() {
           $this->CI =& get_instance();
-          $this->CI->load->library('userfiles')
-
+          $this->CI->load->library('userfiles');
+      }
       public function __destruct() {}
 
       public function add_coordinates($chrom,$start,$end) {
@@ -22,7 +22,7 @@
           if (is_array($dataset) && (sizeof($dataset) > 0) && !isset($dataset[0]['Gene.Left.Sequence']) ) {
               $currentFile = $this->CI->userfiles->getFile().".seq";
               $sequences =& $this->sequences;;
-              $tmp = array_filter(explode(";",$this->CI->userfiles->getFile($currentFile,'OPTIONS')));
+              $tmp = array_filter(explode(";",$this->CI->userfiles->getFile(null,'OPTIONS')));
               while($temp = each($tmp)) {
                 list($key, $value) = explode(":", $temp[1]);
                 $this->opt[strtolower($key)] = $value;
